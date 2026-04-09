@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+
+<style>
+.remember-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #f5e6c8;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.remember-box input {
+    width: auto;
+    margin: 0;
+}
+.gold-title {
+    background: linear-gradient(90deg, #fff8dc, #ffd700, #e6c200);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(255,215,0,0.7);
+}
+
+.desc {
+    line-height: 1.8;
+    font-size: 14px;
+}
+.desc p {
+    margin: 12px 0;
+    line-height: 1.8;
+}
+
+.login-title {
+    text-align:center;
+    color:#f5e6c8;
+    font-size:22px;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+body {
+    background: radial-gradient(circle at center, #444 0%, #111 100%);
+}
+
+.container {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.logo {
+    width:600px;
+    margin:0 auto 30px;
+}
+
+.logo img {
+    width:100%;
+    height:auto;
+    display:block;
+    filter: drop-shadow(0 0 10px rgba(255,215,0,0.6));
+}
+
+.admin-btn {
+    position:fixed;
+    top:20px;
+    right:20px;
+    background:linear-gradient(#f2f2f2, #cccccc);
+    color:#333;
+    padding:10px 15px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:bold;
+    box-shadow:0 4px 10px rgba(0,0,0,0.4);
+}
+
+.login-box {
+    background:#1a1a1a;
+    padding:40px;
+    border-radius:20px;
+    width:380px;
+    max-width:90%;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
+
+input {
+    display:block;
+    margin:10px auto;
+    padding:14px;
+    width:100%;
+    border-radius:10px;
+    border:none;
+    font-size:15px;
+    box-sizing:border-box;
+}
+
+.input-label {
+    display:block;
+    text-align:left;
+    color:#f5e6c8;
+    font-size:14px;
+    margin-top:10px;
+    margin-bottom:5px;
+}
+
+.btn-group {
+    display:flex;
+    gap:15px;
+    margin-top:20px;
+}
+
+.btn {
+    flex:1;
+    height:45px;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn-gray {
+    background:linear-gradient(#cfd8dc, #90a4ae);
+}
+
+.btn-green {
+    background: linear-gradient(135deg, #f5d77a, #d4af37, #b8962e);
+    border:1px solid #ffd700;
+    box-shadow:0 0 20px rgba(255,215,0,0.8);
+}
+
+.info-box {
+    margin-top:20px;
+    background: linear-gradient(135deg, #1f1f1f, #2c2c2c);
+    padding:20px;
+    border-radius:12px;
+    color:#f5e6c8;
+    box-shadow:0 0 15px rgba(255,215,0,0.2);
+    border:1px solid rgba(255,215,0,0.3);
+    text-align:center;
+}
+
+/* checkbox */
+input[type="checkbox"] {
+    accent-color: gold;
+    transform: scale(1.2);
+    margin-right:5px;
+}
+</style>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD7lLhImsbyK4U3AYShpVlY7kSd6bUVJlQ",
+  authDomain: "bac-project-72435.firebaseapp.com",
+  projectId: "bac-project-72435",
+  storageBucket: "bac-project-72435.firebasestorage.app",
+  messagingSenderId: "1072993348749",
+  appId: "1:1072993348749:web:8b994641c641acbed506c4",
+  measurementId: "G-QN2EYEKJCW"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.login = function(){
+  let email = document.getElementById("user").value + "@gmail.com";
+  let password = document.getElementById("pass").value;
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+    window.location.href = "menu.html";
+})
+    .catch((error) => {
+    document.getElementById("error").innerText = error.message;
+    console.log(error.message);
+});
+}
+</script>
+</head>
+
+<body>
+
+<a href="https://line.me/ti/p/XXXXXXXX" target="_blank" class="admin-btn">
+💬 ติดต่อแอดมิน
+</a>
+
+<div class="container">
+
+    <div class="logo">
+        <img src="images/black.png">
+    </div>
+
+    <div class="login-box">
+        <div class="login-title">เข้าสู่ระบบ</div>
+
+        <label class="input-label">ชื่อผู้ใช้งาน</label>
+        <input type="text" id="user" placeholder="กรอกชื่อผู้ใช้">
+
+        <label class="input-label">รหัสผ่าน</label>
+        <input type="password" id="pass" placeholder="กรอกรหัสผ่าน">
+
+        <!-- ✅ จำ user -->
+        <label class="remember-box">
+    <input type="checkbox" id="remember">
+    จำชื่อผู้ใช้
+</label>
+
+        <div class="btn-group">
+            <button class="btn btn-gray">สมัครสมาชิก</button>
+            <button class="btn btn-green" onclick="login()">เข้าสู่ระบบ</button>
+        </div>
+
+        <div class="info-box">
+            <div class="desc">
+                <b><span class="gold-title">DR. SIM สูตรอัจฉริยะ</span></b><br>
+                เป็นผู้คิดค้นและพัฒนาสูตรนี้เพื่อเป็นแนวทาง <br>
+                ให้คนที่ชื่นชอบการลงทุนในด้านนี้ ได้มีหลักการที่แม่นย้ำขึ้น <br>
+                สูตรนี้ผ่านการทดลองด้วยเงินจริง ทุนหมุนเวียนกว่า 10 ล้าน+ <br>
+                จึงออกมาเป็นสูตร ที่มั่นใจแล้วว่าดีที่สุดเพื่อคุณ<br>
+            </div>
+            <p id="error" style="color:red;"></p>
+        </div>
+
+    </div>
+</div>
+
+<script>
+// encode / decode
+
+// โหลด user
+window.onload = function(){
+    let savedUser = localStorage.getItem("rememberUser");
+
+    if(savedUser){
+        document.getElementById("user").value = savedUser;
+        document.getElementById("remember").checked = true;
+        document.getElementById("pass").focus();
+    }
+}
+</script>
+</body>
+</html>

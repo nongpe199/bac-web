@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Baccarat Grid PRO</title>
+
+<style>
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+.loading-animate {
+    animation: blink 1s infinite;
+    font-weight: bold;
+}
+.back-btn {
+    position: fixed;
+    top: 30px;
+    left: 20px;
+
+    background: rgba(0,0,0,0.6);
+    color: #ffd700;
+    padding: 8px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+
+    border: 1px solid rgba(255,215,0,0.3);
+    box-shadow: 0 0 10px rgba(255,215,0,0.2);
+
+    z-index: 999; /* 🔥 กันโดนทับ */
+}
+#webLogo {
+    margin-top:15px;
+    margin-bottom:10px;
+    text-align:center;
+}
+
+#webLogo img {
+    width:90px;              /* 👈 ปรับขนาดตรงนี้ */
+    height:auto;
+
+    display:block;
+    margin:0 auto;
+
+    border-radius:10px;
+    border:2px solid rgba(255,215,0,0.6);
+    filter: drop-shadow(0 0 10px rgba(255,215,0,0.6));
+}
+
+    border:2px solid rgba(255,215,0,0.6);
+    box-shadow:0 0 10px rgba(255,215,0,0.5);
+}
+.web-select-box {
+margin-top:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:0;   /* 👈 ลบช่องว่าง */
+}
+
+.web-select-box select {
+    width:220px;
+    height:40px;
+    padding:0 15px;   /* 👈 เพิ่มตรงนี้ */
+
+    border-radius:8px;
+    border:1px solid rgba(255,215,0,0.3);
+    background:#1a1a1a;
+    color:#f5e6c8;
+}
+
+.web-select-box button {
+    height:40px;
+    width:45px;              /* 👈 ลดขนาดให้พอดี */
+    border-radius:0 8px 8px 0;
+    border:1px solid rgba(255,215,0,0.3);
+    border-left:none;
+
+    background: linear-gradient(135deg, #f5d77a, #d4af37);
+    cursor:pointer;
+}
+
+.buttons {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+
+.logo img {
+    width:500px;
+    height:auto;
+    display:block;
+    margin:auto;
+
+    /* 🔥 เพิ่มแสง */
+    filter: drop-shadow(0 0 10px rgba(255,215,0,0.6));
+         
+}
+/* 🔥 พื้นหลัง */
+body {
+    background: radial-gradient(circle at center, #444 0%, #111 100%);
+    color:#f5e6c8;
+    font-family:Arial;
+    text-align:center;
+}
+
+/* 🔥 banner */
+.banner {
+    background: linear-gradient(180deg, #111, #1a1a1a);
+    padding:20px;
+    border-bottom:2px solid rgba(255,215,0,0.4);
+}
+
+/* 🔥 user bar */
+.user-bar {
+    position:fixed;
+    top:25px;   /* 🔥 ดันลง */
+    right:20px;
+    background:rgba(0,0,0,0.6);
+    padding:8px 12px;
+    border-radius:10px;
+    font-size:14px;
+    color:#f5e6c8;
+
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+}
+
+.user-bar button {
+    margin-left:10px;
+    background: linear-gradient(135deg, #f5d77a, #d4af37);
+    color:#000;
+    border:none;
+    padding:5px 10px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+/* 🔥 select box */
+.web-select-box select {
+    background:#1a1a1a;
+    color:#f5e6c8;
+    border:1px solid rgba(255,215,0,0.3);
+}
+
+.web-select-box button {
+    background: linear-gradient(135deg, #f5d77a, #d4af37);
+    color:#000;
+}
+
+/* 🔥 ปุ่ม B P T */
+.buttons button {
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    border:none;
+    margin:5px;
+    font-size:18px;
+    color:white;
+    box-shadow:0 0 10px rgba(0,0,0,0.5);
+}
+
+.banker {background:#b30000;}
+.player {background:#0044cc;}
+.tie {background:#008000;}
+
+/* 🔥 grid */
+.grid {
+    display:grid;
+    grid-template-columns: repeat(10,40px);
+    gap:6px;
+    justify-content:center;
+    margin-top:20px;
+    background:#1a1a1a;
+    padding:15px;
+    border-radius:15px;
+    box-shadow:0 0 20px rgba(255,215,0,0.1);
+}
+
+/* 🔥 ช่อง */
+.cell {
+    width:40px;
+    height:40px;
+
+    display:flex;              /* 👈 เพิ่ม */
+    align-items:center;
+    justify-content:center;
+
+    background:#2a2a2a;
+    border-radius:8px;
+}
+
+/* 🔥 วง */
+.circle {
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    color:white;
+
+    display:flex;              /* 👈 สำคัญ */
+    align-items:center;        /* 👈 กลางแนวตั้ง */
+    justify-content:center;    /* 👈 กลางแนวนอน */
+
+    font-weight:bold;
+}
+
+.B {background:#b30000;}
+.P {background:#0044cc;}
+.T {background:#008000;}
+
+/* 🔥 ปุ่ม action */
+.action {
+    margin-top:10px;
+    padding:10px 20px;
+    border-radius:10px;
+    border:none;
+    background: linear-gradient(135deg, #f5d77a, #d4af37, #b8962e);
+    font-weight:bold;
+    color:#000;
+    box-shadow:0 0 10px rgba(255,215,0,0.4);
+    cursor:pointer;
+}
+
+/* 🔥 result box */
+.result-box {
+    margin:30px auto;
+    padding:20px;
+    border-radius:15px;
+    background:#111;
+    width:260px;
+    border:1px solid rgba(255,215,0,0.3);
+    box-shadow:0 0 15px rgba(255,215,0,0.2);
+}
+
+/* 🔥 กล่องคำอธิบาย */
+.info-box {
+    margin-top:25px;
+    background:#1a1a1a;
+    padding:15px;
+    border-radius:12px;
+    max-width:630px;
+    margin-left:auto;
+    margin-right:auto;
+    text-align:left;
+    line-height:1.6;
+    border:1px solid rgba(255,215,0,0.2);
+    box-shadow:0 0 10px rgba(255,215,0,0.1);
+}
+
+/* 🔥 แถวบน */
+.user-top {
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+/* 🔥 อัปเดต */
+.update-text {
+    margin-top:5px;
+    font-size:12px;
+    color:#ffd700;
+
+    width:100%;          /* 🔥 สำคัญ */
+    text-align:center;   /* 🔥 จัดกลาง */
+}
+</style>
+</head>
+<div class="back-btn" onclick="goMenu()">
+    ⬅ กลับหน้าเมนู
+</div>
+
+<body id="body">
+
+<div class="banner">
+
+
+
+<div class="logo">
+    <img src="images/black.png">
+</div>
+
+    <!-- 🔥 แถบบัญชี -->
+ <div class="user-bar">
+
+    <div class="user-top">
+        <b id="userEmail"></b>
+        <button onclick="logout()">ออกจากระบบ</button>
+    </div>
+
+    <div id="updateText" class="update-text"></div>
+
+</div>
+
+
+
+
+
+</div> <!-- ปิด banner -->
+
+<!-- 🔥 แถบเดียวกัน -->
+<div class="buttons">
+<div id="webLogo"></div>
+
+    <!-- 🔥 เลือกเว็บ -->
+    <div class="web-select-box" style="margin-bottom:10px;">
+        <select id="webSelect" onchange="changeWeb()">
+            <option value="" selected disabled>เลือกเว็บที่จะเล่น</option>
+            <option value="sa">SA Gaming</option>
+            <option value="sexy">Sexy Baccarat</option>
+            <option value="dg">Dream Gaming</option>
+            <option value="evo">Evolution</option>
+            <option value="ab">All Bet</option>
+            <option value="cg">Casino Game</option>
+            <option value="bg">BetGames</option>
+        </select>
+      
+    </div>
+
+    <!-- 🔥 ปุ่ม -->
+    <div style="display:flex; justify-content:center;">
+       <button class="banker play-btn" onclick="add('B')">B</button>
+<button class="player play-btn" onclick="add('P')">P</button>
+<button class="tie play-btn" onclick="add('T')">T</button>
+    </div>
+
+</div>
+
+<div style="
+margin-top:15px;
+font-size:16px;
+background:#1a1a1a;
+padding:10px;
+border-radius:10px;
+display:inline-block;
+border:1px solid rgba(255,215,0,0.2);
+color:#f5e6c8;
+">
+    🔥 โปรดกรอกผลสกอร์ย้อนหลังของห้องที่จะเล่น  
+    เพื่อให้ระบบวิเคราะห์รอบถัดไป 
+</div>
+<!-- 🔥 หัวข้อ -->
+
+
+<div class="grid" id="grid"></div>
+
+<button id="analyzeBtn" class="action" onclick="analyze()" disabled>วิเคราะห์</button>
+<button class="action" onclick="clearGrid()">ลบทั้งหมด</button>
+<button class="action" onclick="undo()">ลบล่าสุด</button>
+
+<div id="resultBox" class="result-box" style="display:none;">
+<div id="loadingText" style="display:none;color:yellow;margin-top:10px;font-weight:bold;"></div>
+    <div id="mainResult"></div>
+    <button id="resultBtn"></button>
+    <div id="percentText"></div>
+</div>
+
+
+
+
+<!-- 🔥 กล่องคำอธิบาย -->
+<div class="info-box">
+วิธีการใช้งานสูตร<br>
+ 
+1. เลือกเว็บที่คุณต้องการเล่น <br>
+2. กรอกผลย้อนหลังของห้องนั้น  (B / P / T) <br>
+3. ใส่ผลให้ครบตามห้องที่เลือก <br>
+4. กด "วิเคราะห์" ก็จะได้รับแนวทางการเล่น<br>
+5. ยิ่ง % เยอะยิ่งมีโอกาสชนะมากขึ้น<br>
+6. สูตรนี้เป็นเพียงแนวทางเท่านั้น<br>
+
+</div>
+
+
+
+
+
+<script>
+function goMenu(){
+    window.location.href = "menu.html";
+}
+function updateDate() {
+    let now = new Date();
+
+    let day = now.getDate();
+    let month = now.getMonth() + 1;
+    let year = now.getFullYear() + 543; // แปลงเป็น พ.ศ.
+
+    let text = "🔄 อัปเดตระบบล่าสุด: " + day + "/" + month + "/" + year;
+
+    document.getElementById("updateText").innerText = text;
+}
+
+updateDate();
+
+let analyzed = false;
+
+const rows = 6;
+const cols = 10;
+
+let board = Array.from({length: rows}, () => Array(cols).fill(""));
+let data = [];
+
+// 🔥 logout
+function logout(){
+    alert("ออกจากระบบแล้ว");
+
+    localStorage.removeItem("login");
+    localStorage.removeItem("username");
+
+    window.location.href = "login.html";
+}
+
+// 🔥 เปลี่ยนเว็บ
+function changeWeb() {
+
+    let web = document.getElementById("webSelect").value;
+    let body = document.getElementById("body");
+
+    let bg = "";
+
+    if (web === "sa") bg = "images/sa.png";
+    else if (web === "sexy") bg = "images/sexy.png";
+    else if (web === "dg") bg = "images/dg.png";
+    else if (web === "evo") bg = "images/evo.png";
+    else if (web === "ab") bg = "images/ab.png";
+    else if (web === "cg") bg = "images/cg.png";
+    else if (web === "bg") bg = "images/bg.png";
+
+    // ✅ ใส่โลโก้ (ย้ายมาหลัง bg)
+    let logoBox = document.getElementById("webLogo");
+    if (logoBox && bg !== "") {
+        logoBox.innerHTML = "<img src='" + bg + "'>";
+    }
+
+    // 🔥 พื้นหลัง
+    body.style.backgroundImage =
+        "radial-gradient(circle at center, #444 0%, #111 100%), url('" + bg + "')";
+
+    body.style.backgroundSize = "cover, 200px";
+    body.style.backgroundPosition = "center, left center";
+    body.style.backgroundRepeat = "no-repeat, no-repeat";
+
+    let loading = document.getElementById("loadingText");
+
+    let webNameMap = {
+        sa:"SA Gaming",
+        sexy:"Sexy Baccarat",
+        dg:"Dream Gaming",
+        evo:"Evolution",
+        ab:"All Bet",
+        cg:"Casino Game",
+        bg:"BetGames"
+    };
+
+    let webName = webNameMap[web] || "System";
+
+    loading.innerText = "🔄 กำลังโหลดสูตร " + webName + "...";
+    loading.style.display = "block";
+
+    document.getElementById("resultBox").style.display = "none";
+
+    
+setTimeout(() => {
+        data = [];
+        board = Array.from({length: rows}, () => Array(cols).fill(""));
+        analyzed = false;
+        document.getElementById("analyzeBtn").disabled = false;
+
+        render();
+        loading.style.display = "none";
+    }, 1000);
+}
+// เพิ่มข้อมูล
+function add(val) {
+    analyzed = false;
+    document.getElementById("analyzeBtn").disabled = false;
+
+    let index = data.length;
+    let col = Math.floor(index / rows);
+    let row = index % rows;
+
+    if (col >= cols) return;
+
+    board[row][col] = val;
+    data.push(val);
+    render();
+}
+
+// วิเคราะห์
+function analyze(){
+
+    if (analyzed) return;
+
+    let web = document.getElementById("webSelect").value;
+    if(!web){
+        alert("กรุณาเลือกเว็บก่อน");
+        return;
+    }
+
+    let d = data;
+
+    if (d.length < 6) {
+        alert("⚠️ ต้องมีข้อมูลอย่างน้อย 6 ตา");
+        return;
+    }
+
+    analyzed = true;
+    document.getElementById("analyzeBtn").disabled = true;
+    document.getElementById("resultBox").style.display = "block";
+
+    let loading = document.getElementById("loadingText");
+
+    loading.innerText = "🔄 ระบบกำลังวิเคราะห์เค้าไพ่...";
+    loading.style.display = "block";
+    loading.classList.add("loading-animate");
+
+   setTimeout(() => {
+
+let last = d.filter(x => x !== "T").slice(-15);
+let lastOne = last[last.length-1];
+
+// 🔥 FAKE SWITCH
+let fakeSwitch = false;
+if(last.length >= 4){
+    let a = last[last.length-4];
+    let b = last[last.length-3];
+    let c = last[last.length-2];
+    let d2 = last[last.length-1];
+
+    if(a === b && c !== b && d2 === b){
+        fakeSwitch = true;
+    }
+}
+
+// 🔥 MOMENTUM
+let momentum = 0;
+for(let i = last.length - 5; i < last.length - 1; i++){
+    if(last[i] === last[i+1]) momentum++;
+}
+
+// 🔥 streakNow
+let streakNow = 1;
+for(let i = last.length - 1; i > 0; i--){
+    if(last[i] === last[i-1]) streakNow++;
+    else break;
+}
+
+// 🔥 CHOP DETECT
+let chopCount = 0;
+for(let i = 1; i < last.length; i++){
+    if(last[i] !== last[i-1]) chopCount++;
+}
+
+let chopRate = chopCount / (last.length - 1);
+let isChopHeavy = chopRate > 0.65 && momentum < 2 && streakNow < 3;
+
+// 🔥 BIAS
+let biasSide = null;
+let last6 = last.slice(-6);
+let countB = 0;
+let countP = 0;
+
+for(let i = 0; i < last6.length; i++){
+    if(last6[i] === "B") countB++;
+    if(last6[i] === "P") countP++;
+}
+
+if(countB >= 4) biasSide = "B";
+if(countP >= 4) biasSide = "P";
+
+// 🔥 2-2 DETECT
+let isDoubleFlip = false;
+if(last.length >= 4){
+    let a = last[last.length-4];
+    let b = last[last.length-3];
+    let c = last[last.length-2];
+    let d2 = last[last.length-1];
+
+    if(a === b && c === d2 && a !== c){
+        isDoubleFlip = true;
+    }
+}
+
+// 🔥 SCORE
+let scoreB = 0;
+let scoreP = 0;
+
+if(momentum >= 3){
+    if(lastOne === "B") scoreB = 5;
+    else scoreP = 5;
+}
+
+let last4 = last.slice(-4).join("");
+if(last4 === "BBBB") scoreB += 1;
+if(last4 === "PPPP") scoreP += 1;
+
+// 🔥 FINAL PICK (สูตรเดิมมึง)
+let finalPick = "";
+
+// 1. ไหล
+if(momentum >= 3){
+    finalPick = lastOne;
+}
+
+// 2. 2-2
+else if(isDoubleFlip){
+    finalPick = last[last.length-4];
+}
+
+// 3. chop + bias
+else if(isChopHeavy && biasSide){
+    finalPick = biasSide;
+}
+
+// 4. chop
+else if(isChopHeavy){
+    finalPick = (lastOne === "B") ? "P" : "B";
+}
+
+// 5. fake
+else if(fakeSwitch){
+    finalPick = lastOne;
+}
+
+// 6. ยาว
+else if(streakNow >= 5){
+    finalPick = (lastOne === "B") ? "P" : "B";
+}
+
+// 7. ปกติ
+else{
+    finalPick = (scoreB > scoreP) ? "B" : "P";
+}
+
+// ====== UI (แก้แค่นี้) ======
+let result = (finalPick === "B") ? "Banker" : "Player";
+
+// 🔥 ข้อความ
+document.getElementById("mainResult").innerHTML =
+(result === "Banker"
+ ? "🔴 วิเคราะห์ได้ผลลัพธ์ Banker 🔴"
+ : "🔵 วิเคราะห์ได้ผลลัพธ์ Player 🔵");
+
+// 🔥 ปุ่ม
+let btn = document.getElementById("resultBtn");
+btn.style.display = "inline-block";
+btn.style.marginTop = "20px";
+if(result === "Banker"){
+    btn.innerText = "BANKER";
+    btn.style.background = "#b30000";
+}else{
+    btn.innerText = "PLAYER";
+    btn.style.background = "#0044cc";
+}
+
+btn.style.color = "white";
+btn.style.fontWeight = "bold";
+btn.style.fontSize = "20px";
+btn.style.padding = "15px 30px";
+btn.style.borderRadius = "10px";
+btn.style.border = "none";
+
+// 🔥 ปิด loading (สำคัญ)
+loading.style.display = "none";
+loading.classList.remove("loading-animate");
+
+}, 800);
+}function undo(){
+    if (data.length === 0) return;
+
+    data.pop();
+    analyzed = false;
+    document.getElementById("analyzeBtn").disabled = false;
+
+    board = Array.from({length: rows}, () => Array(cols).fill(""));
+    data.forEach((v,i)=>{
+        let col=Math.floor(i/rows);
+        let row=i%rows;
+        if(col<cols) board[row][col]=v;
+    });
+
+    render();
+}
+
+// ล้างหมด
+function clearGrid(){
+    data=[];
+    analyzed = false;
+    document.getElementById("analyzeBtn").disabled = false;
+
+    board = Array.from({length: rows}, () => Array(cols).fill(""));
+    document.getElementById("resultBox").style.display="none";
+    render();
+}
+
+function render() {
+    let grid = document.getElementById("grid");
+    grid.innerHTML = "";
+
+    for (let r=0; r<rows; r++) {
+        for (let c=0; c<cols; c++) {
+            let cell = document.createElement("div");
+            cell.className = "cell";
+
+            if (board[r][c]) {
+                let circle = document.createElement("div");
+                circle.className = "circle " + board[r][c];
+                circle.innerText = board[r][c];
+                cell.appendChild(circle);
+            }
+
+            grid.appendChild(cell);
+        }
+    }
+}
+
+render();
+</script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD7lLhImsbyK4U3AYShpVlY7kSd6bUVJlQ",
+  authDomain: "bac-project-72435.firebaseapp.com",
+  projectId: "bac-project-72435",
+  storageBucket: "bac-project-72435.firebasestorage.app",
+  messagingSenderId: "1072993348749",
+  appId: "1:1072993348749:web:8b994641c641acbed506c4",
+  measurementId: "G-QN2EYEKJCW"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// 🔥 device id
+let deviceId = localStorage.getItem("deviceId");
+if (!deviceId) {
+  deviceId = Math.random().toString(36).substring(2);
+  localStorage.setItem("deviceId", deviceId);
+}
+
+// 🔐 check login + กันแชร์ + สิทธิ์
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  } else {
+    document.getElementById("userEmail").innerText = user.email;
+
+    const ref = doc(db, "Usere", user.email);
+    const snap = await getDoc(ref);
+
+    if (!snap.exists()) {
+      alert("ไม่มีสิทธิ์ใช้งาน");
+      signOut(auth);
+      window.location.href = "login.html";
+      return;
+    }
+
+    let data = snap.data();
+
+    if (!data.device || data.device === "") {
+      await updateDoc(ref, { device: deviceId });
+    } else if (data.device !== deviceId) {
+      alert("บัญชีนี้ถูกใช้งานในเครื่องอื่น");
+      signOut(auth);
+      window.location.href = "login.html";
+    }
+  }
+});
+
+// 🔥 logout
+window.logout = function(){
+  signOut(auth).then(() => {
+    window.location.href = "login.html";
+  });
+}
+</script></body>
+</html>
