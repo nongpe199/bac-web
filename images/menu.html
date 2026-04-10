@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>เลือกสูตร</title>
+
+<style>
+
+.info-box {
+    text-align:center; /* 🔥 ให้หัวอยู่กลาง */
+}
+
+/* 🔥 หัว */
+.info-title {
+    margin-bottom:10px;
+    font-weight:bold;
+}
+
+/* 🔥 เนื้อหา */
+.info-content {
+    text-align:left;   /* 🔥 ชิดซ้าย */
+    line-height:1.8;
+}
+.info-box {
+text-align:center;
+    margin:40px auto;
+    width:80%;
+    max-width:600px;
+    padding:15px;
+
+    background:#1a1a1a;
+    border-radius:15px;
+    color:#ffd700;
+
+    border:1px solid rgba(255,215,0,0.3);
+    box-shadow:0 0 15px rgba(255,215,0,0.2);
+}
+
+/* 🔥 พื้นหลัง */
+body {
+    margin:0;
+    font-family:Arial;
+    background: radial-gradient(circle at center, #444 0%, #111 100%);
+    text-align:center;
+    color:#f5e6c8;
+}
+
+/* 🔥 กล่องด้านบน */
+.top-box {
+    width:90%;
+    max-width:800px;
+
+    margin:80px auto 30px;  /* 🔥 เพิ่มระยะด้านบน */
+
+    background: linear-gradient(180deg, #111, #1a1a1a);
+    border-radius:20px;
+    padding:25px;
+    color:#f5e6c8;
+
+    border:1px solid rgba(255,215,0,0.3);
+    box-shadow:0 0 20px rgba(255,215,0,0.2);
+}
+
+.top-box h1 {
+    margin:0;
+    font-size:28px;
+    color:#ffd700;
+}
+
+.top-box p {
+    margin-top:10px;
+    font-size:14px;
+    color:#ccc;
+}
+
+/* 🔥 เมนู */
+.menu {
+    display:flex;
+    justify-content:center;
+    gap:50px;
+    margin-top:40px;
+}
+
+/* 🔥 วงรูป */
+.circle {
+    width:140px;
+    height:140px;
+    border-radius:50%;
+    overflow:hidden;
+    cursor:pointer;
+    transition:0.3s;
+
+    border:2px solid rgba(255,215,0,0.5);
+    box-shadow:0 0 15px rgba(255,215,0,0.2);
+}
+
+.circle img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.circle:hover {
+    transform:scale(1.08);
+    box-shadow:0 0 25px rgba(255,215,0,0.6);
+}
+
+.label {
+    margin-top:12px;
+    font-weight:bold;
+    color:#ffd700;
+}
+
+/* 🔥 USER BAR (เหมือนหน้าสูตร) */
+.user-bar {
+    position:fixed;
+    top:25px;   /* 🔥 ดันลง */
+    right:20px;
+    background:rgba(0,0,0,0.6);
+    padding:8px 12px;
+    border-radius:10px;
+    font-size:14px;
+    color:#f5e6c8;
+
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+}
+
+/* 🔥 แถวบน */
+.user-top {
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+/* 🔥 ปุ่ม */
+.user-bar button {
+    background: linear-gradient(135deg, #f5d77a, #d4af37);
+    color:#000;
+    border:none;
+    padding:5px 10px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+/* 🔥 update */
+.update-text {
+    margin-top:5px;
+    font-size:12px;
+    color:#ffd700;
+
+    width:100%;          /* 🔥 สำคัญ */
+    text-align:center;   /* 🔥 จัดกลาง */
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🔥 USER BAR -->
+<div class="user-bar">
+
+    <div class="user-top">
+        บัญชี: <b id="userEmail"></b>
+       <button onclick="logout()">ออกจากระบบ</button>
+    </div>
+
+    <div class="update-text" id="updateText"></div>
+        
+    </div>
+
+</div>
+
+<!-- 🔥 กล่องบน -->
+<div class="top-box">
+    <h1>🔥 เลือกสูตรที่ต้องการ</h1>
+    <p>วิเคราะห์ด้วยระบบอัจฉริยะ ลดพลาด ลดหลุด ลดแพ้ เน้นอยู่รอดยืนยาว</p>
+
+</div>
+
+<!-- 🔥 เมนู -->
+<div class="menu">
+
+
+    <div onclick="goLottery()">
+        <div class="circle">
+            <img src="images/muneyee.png">
+        </div>
+        <div class="label">สูตรหวย</div>
+    </div>
+
+    <div onclick="goBac()">
+        <div class="circle">
+            <img src="images/muneba.png">
+        </div>
+        <div class="label">สูตรบาคาร่า</div>
+    </div>
+
+
+</div>
+<div class="info-box">
+
+  <div class="info-title">
+         คำแนะนำ
+    </div>
+    <div class="info-content">
+1. สูตรเป็นเพียงแนวทางเท่านั้น ที่วิเคราะห์ด้วยระบบอัจฉริยะ<br>
+2. ผ่านการใช้งานและทดสอบด้วยเงินจริง ทุนหมุนเวียนกว่า 10 ล้าน<br>
+3. สูตรเน้นบาลานซ์ลดความเสี่ยง ลดโอกาสหลุดยาว <br>
+4. ช่วยลดความเสี่ยงจากการเล่นผิดหลายรอบได้<br>
+5. ใช้เป็นตัวช่วยตัดสินใจในการเลือกได้ <br>
+6.  ไม่ได้การันตีกำไร แต่เน้นอยู่รอดได้ในระยะยาว<br>
+7. เว็ปเราไม่มีส่วนเกี่ยวข้องกับเว็บพนันใด ๆ เป็นเพียงเว็บที่คำนวณสูตรเท่านั้น<br>
+</div>
+
+<script>
+function goLottery(){
+    window.location.href = "yeekee.html";
+}
+
+function goBac(){
+    window.location.href = "index.html";
+}
+function updateDate() {
+    let now = new Date();
+
+    let day = now.getDate();
+    let month = now.getMonth() + 1;
+    let year = now.getFullYear() + 543; // แปลงเป็น พ.ศ.
+
+    let text = "🔄 อัปเดตล่าสุด: " + day + "/" + month + "/" + year;
+
+    document.getElementById("updateText").innerText = text;
+}
+
+// เรียกใช้งาน
+updateDate();
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD7lLhImsbyK4U3AYShpVlY7kSd6bUVJlQ",
+  authDomain: "bac-project-72435.firebaseapp.com",
+  projectId: "bac-project-72435",
+  storageBucket: "bac-project-72435.firebasestorage.app",
+  messagingSenderId: "1072993348749",
+  appId: "1:1072993348749:web:8b994641c641acbed506c4",
+  measurementId: "G-QN2EYEKJCW"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// 🔥 สร้าง device id
+let deviceId = localStorage.getItem("deviceId");
+
+if (!deviceId) {
+  deviceId = Math.random().toString(36).substring(2);
+  localStorage.setItem("deviceId", deviceId);
+}
+
+// 🔐 check login + กันแชร์
+onAuthStateChanged(auth, async (user) => {
+  if (user === null) {
+  return; // 🔥 รอ ไม่ต้องเด้ง
+}
+
+if (!user) {
+  window.location.href = "login.html";
+} else {
+  document.getElementById("userEmail").innerText = user.email;
+
+ const ref = doc(db, "Usere", user.email);
+const snap = await getDoc(ref);  // 🔥 เพิ่มบรรทัดนี้
+
+if (!snap.exists()) {
+      alert("ไม่มีสิทธิ์ใช้งาน");
+      signOut(auth);
+      window.location.href = "login.html";
+      return;
+    }
+
+    let data = snap.data();
+
+    // 🔥 ยังไม่มีเครื่อง → บันทึก
+    if (!data.device || data.device === "") {
+      await updateDoc(ref, { device: deviceId });
+    } 
+    // 🔥 เครื่องไม่ตรง → เตะออก
+    else if (data.device !== deviceId) {
+      alert("บัญชีนี้ถูกใช้งานในเครื่องอื่น");
+      signOut(auth);
+      window.location.href = "login.html";
+    }
+  }
+});
+
+// 🔥 logout
+window.logout = function(){
+  signOut(auth).then(() => {
+    window.location.href = "login.html";
+  });
+}
+</script>
+</body>
+</html>
