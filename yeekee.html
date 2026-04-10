@@ -476,12 +476,9 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+
 // 🔥 device
-let deviceId = localStorage.getItem("deviceId");
-if (!deviceId) {
-  deviceId = Math.random().toString(36).substring(2);
-  localStorage.setItem("deviceId", deviceId);
-}
+const deviceId = "mydevice123";
 
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
