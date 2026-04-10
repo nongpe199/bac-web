@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>สูตรยี่กี</title>
+
+<style>
+.sub-title {
+    margin-top: 70px !important;  /* 👈 บังคับเลย */
+}
+.gold-header {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+    color: #d4af37; /* 🔥 ทองเข้ม */
+
+    text-shadow: none;
+}
+.logo img {
+    width:500px;
+    height:auto;
+    display:block;
+    margin:auto;
+
+    filter: drop-shadow(0 0 10px rgba(255,215,0,0.6));
+}
+
+.back-btn {
+    position: fixed;
+    top: 30px;
+    left: 20px;
+
+    background: rgba(0,0,0,0.6);
+    color: #ffd700;
+    padding: 8px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+
+    border: 1px solid rgba(255,215,0,0.3);
+    box-shadow: 0 0 10px rgba(255,215,0,0.2);
+
+    z-index: 999; /* 🔥 กันโดนทับ */
+}
+#formulaResult {
+    background:#111;
+    border:1px solid rgba(255,215,0,0.3);
+    padding:10px;
+    border-radius:10px;
+    width:80%;
+    margin:auto;
+}
+/* 🔥 ปุ่มที่ถูกเลือก */
+
+.active-btn {
+    background: linear-gradient(135deg, #f5d77a, #d4af37);
+    color:#000;
+    box-shadow:0 0 10px rgba(255,215,0,0.6);
+}
+#extraBtns button.active-btn {
+    background: linear-gradient(135deg, #f5d77a, #d4af37) !important;
+    color:#000 !important;
+    box-shadow:0 0 12px rgba(255,215,0,0.8);
+}
+#extraBtns {
+margin-top:20px;
+    display:flex;
+    flex-wrap:nowrap;
+    justify-content:center;
+    gap:8px;
+}
+
+#extraBtns button {
+    padding:8px 12px;
+    font-size:13px;
+}
+
+
+#webLogo img {
+    width:100px;
+margin-top: 25px; 
+    margin-bottom:5px;
+    border-radius:5px;
+
+    filter: drop-shadow(0 0 10px rgba(255,215,0,0.6));
+}
+
+/* 🔥 loading */
+#loadingText {
+    margin-top:10px;
+    color:#ffd700;
+    font-size:14px;
+}
+
+/* 🔥 พื้นหลัง */
+body {
+    margin:0;
+    font-family:Arial;
+    background: radial-gradient(circle at center, #444 0%, #111 100%);
+    text-align:center;
+    color:#f5e6c8;
+min-height: 115vh;
+}
+
+/* 🔥 USER BAR */
+.user-bar {
+    position:fixed;
+    top:30px;
+    right:30px;
+    background:rgba(0,0,0,0.6);
+    padding:10px 12px;
+    border-radius:10px;
+    font-size:14px;
+}
+
+.user-top {
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.user-bar button {
+    background: linear-gradient(135deg, #f5d77a, #d4af37);
+    border:none;
+    padding:5px 10px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.update-text {
+    margin-top:5px;
+    font-size:12px;
+    color:#ffd700;
+    text-align:center;
+}
+
+/* 🔥 โลโก้ */
+.banner {
+    background: linear-gradient(180deg, #111, #1a1a1a);
+    padding:20px;
+    border-bottom:2px solid rgba(255,215,0,0.4);
+}
+
+
+/* 🔥 select */
+
+.input-row input,
+.input-row button {
+    height:40px;
+}
+.web-select-box {
+    margin-top:10px;
+    display:flex;
+    justify-content:center;
+}
+
+.web-select-box select {
+    width:220px;
+    height:40px;
+    border-radius:20px;
+    border:1px solid rgba(255,215,0,0.5);
+    background:#1a1a1a;
+    color:#f5e6c8;
+}
+
+/* 🔥 หัวข้อ */
+.title-box {
+    margin-top:50px;
+}
+
+
+/* 🔥 กล่อง */
+.box {
+    margin:40px auto;
+    background:#1a1a1a;
+    padding:25px;
+    border-radius:15px;
+    width:600px;
+    box-shadow:0 0 15px rgba(255,215,0,0.2);
+}
+
+/* 🔥 input ต่อกัน */
+.input-row {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+}
+.input-row input {
+    width:120px;
+    padding:10px;
+    border:1px solid rgba(255,215,0,0.3);
+    background:#111;
+    color:#ffd700;
+    text-align:center;
+}
+
+/* 🔥 มุม */
+#top { border-radius:8px 0 0 8px; }
+#bottom { border-radius:0 8px 8px 0; }
+
+/* 🔥 ปุ่ม */
+.btn-row {
+    margin-top:15px;
+    display:flex;
+    justify-content:center;
+    gap:10px;
+}
+
+.gray-btn {
+    background: linear-gradient(180deg, #d9d9d9, #a9b3b8);
+    color:#000;
+    border:none;
+    padding:10px 20px;
+    border-radius:12px;
+    cursor:pointer;
+}
+
+.analyze-btn {
+    background: linear-gradient(135deg, #f5d77a, #d4af37);
+    border:none;
+    border-radius:12px;   /* 🔥 ทำให้มน */
+    padding:8px 16px;     /* 🔥 ลดขนาด */
+    height:40px;          /* 🔥 ให้เท่าปุ่มลบ */
+    cursor:pointer;
+}
+
+/* 🔥 result */
+
+.result {
+    margin-top:15px;
+    color:#ffd700;
+}
+
+
+</style>
+</head>
+
+<body>
+<div class="back-btn" onclick="goMenu()">
+    ⬅ กลับหน้าเมนู
+</div>
+
+<!-- 🔥 USER -->
+<div class="user-bar">
+    <div class="user-top">
+        บัญชี: <b id="userEmail"></b>
+        <button onclick="logout()">ออกจากระบบ</button>
+    </div>
+    <div class="update-text" id="updateText"></div>
+</div>
+
+<!-- 🔥 LOGO -->
+<div class="banner">
+    <div class="logo">
+    <img src="images/black.png">
+</div>
+</div>
+<div id="webLogo"></div>
+<!-- 🔥 SELECT -->
+<!-- 🔥 TITLE -->
+<div class="title-box">
+    <h2 class="gold-header">สูตรยี่กี</h2>
+ 
+</div>
+
+<!-- 🔥 SELECT -->
+<div class="web-select-box">
+    <select id="webSelect" onchange="changeWeb()">
+        <option value="">-- โปรดเลือกเว็บ --</option>
+        <option value="cjw">ยี่กี CJ WORLD</option>
+        <option value="cj">ยี่กี ชัดเจน</option>
+        <option value="dna">ยี่กี DNA</option>
+        <option value="h">ยี่กี Huay</option>
+    </select>
+</div><div id="loadingText" style="display:none;">⏳ กำลังโหลด...</div>
+<div id="webLogo"></div>  <!-- 👈 ตรงนี้ -->
+
+
+<!-- 🔥 TITLE -->
+<div class="title-box">
+    
+   <p class="gold-header sub-title">กรอกผลหวยรอบที่ต้องการคำนวณ</p>
+</div>
+
+<!-- 🔥 BOX -->
+<div class="box">
+
+   <div class="input-row">
+    <input type="text" id="top" maxlength="3" placeholder="เลขบน"
+oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+
+<input type="text" id="bottom" maxlength="2" placeholder="เลขล่าง"
+oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+
+    <!-- 🔥 ย้ายมานี่ -->
+    <button class="gray-btn" onclick="clearAll()">ลบทั้งหมด</button>
+    <button class="analyze-btn" onclick="calc()">วิเคราะห์</button>
+</div>
+
+    <div class="result" id="result"></div>
+<div id="guideText" style="display:none; margin-top:10px; color:#ffd700;">
+    👉 เลือกสูตรที่ต้องการ
+</div>
+
+<div id="extraBtns" style="display:none; margin-top:15px;">
+
+<button id="btn1" class="gray-btn" onclick="selectBtn(this)">รูด1ตัว</button>
+<button class="gray-btn" onclick="selectBtn(this)">รูด2ตัว</button>
+<button class="gray-btn" onclick="selectBtn(this)">ปักหลักสิบ</button>
+<button class="gray-btn" onclick="selectBtn(this)">พิกัดบน</button>
+<button class="gray-btn" onclick="selectBtn(this)">ชุดวิน</button>
+<button class="gray-btn" onclick="selectBtn(this)">เลขวิ่งบน</button>
+</div>
+<div id="formulaResult" style="display:none; margin-top:15px; color:#ffd700;"></div>
+
+</div>
+
+<script>
+function goMenu(){
+    window.location.href = "menu.html";
+}
+function logout(){
+    alert("ออกจากระบบแล้ว");
+
+    localStorage.removeItem("login");
+    localStorage.removeItem("username");
+
+    window.location.href = "login.html";
+}
+let currentBtn = null;
+function selectBtn(btn){
+
+    // 🔥 จำปุ่มที่กด
+    currentBtn = btn;
+
+    document.querySelectorAll("#extraBtns button").forEach(b => {
+        b.classList.remove("active-btn");
+    });
+
+    btn.classList.add("active-btn");
+
+    let show = "";
+
+    if(btn.innerText === "รูด1ตัว"){
+        show = "1 2 3 4 5";
+    }
+    else if(btn.innerText === "รูด2ตัว"){
+        show = "12 23 34 45";
+    }
+    else if(btn.innerText === "เลขวิ่งบน"){
+        show = "1 - 9";
+    }
+    else{
+        show = "กำลังพัฒนา...";
+    }
+
+    let box = document.getElementById("formulaResult");
+    box.style.display = "block";
+    box.innerHTML = `
+🔥 <b>ผลวิเคราะห์รอบนี้</b><br>
+📊 ${btn.innerText} : ${show}
+`;
+}
+function changeWeb(){
+
+    // 🔥 ล้างข้อมูลทั้งหมดก่อน
+    document.getElementById("top").value = "";
+    document.getElementById("bottom").value = "";
+    document.getElementById("result").innerText = "";
+
+    document.getElementById("guideText").style.display = "none";
+    document.getElementById("extraBtns").style.display = "none";
+    document.getElementById("formulaResult").style.display = "none";
+    document.getElementById("formulaResult").innerHTML = "";
+
+    // 🔥 ล้าง active ปุ่ม
+    document.querySelectorAll("#extraBtns button").forEach(btn => {
+        btn.classList.remove("active-btn");
+    });
+
+    // 🔥 ของเดิม
+    let web = document.getElementById("webSelect").value;
+    let logo = document.getElementById("webLogo");
+    let loading = document.getElementById("loadingText");
+
+    // 🔥 แสดงโหลดก่อน
+    loading.style.display = "block";
+    logo.innerHTML = "";
+
+    setTimeout(() => {
+
+        if(web === "cjw"){
+            logo.innerHTML = '<img src="images/cjw.png">';
+        }
+        else if(web === "cj"){
+            logo.innerHTML = '<img src="images/cj.png">';
+        }
+        else if(web === "dna"){
+            logo.innerHTML = '<img src="images/dna.png">';
+        }
+        else if(web === "h"){
+            logo.innerHTML = '<img src="images/h.png">';
+        }
+
+        // 🔥 ซ่อนโหลด
+        loading.style.display = "none";
+
+    }, 500);
+
+}
+function calc(){
+
+    let web = document.getElementById("webSelect").value;
+
+    // 🔥 ต้องอยู่บนสุด
+    if(web === ""){
+        alert("กรุณาเลือกเว็บก่อน");
+        return;
+    }
+
+    let top = document.getElementById("top").value;
+    let bottom = document.getElementById("bottom").value;
+
+    if(top.length !== 3 || bottom.length !== 2){
+        alert("กรุณากรอกเลขให้ครบ");
+        return;
+    }
+
+    let sum = (parseInt(top) + parseInt(bottom)) % 100;
+
+   
+    document.getElementById("guideText").style.display = "block";
+    document.getElementById("extraBtns").style.display = "flex";
+
+    // 🔥 ค่อยเรียกหลังสุด
+    
+}
+
+function clearAll(){
+    document.getElementById("top").value = "";
+    document.getElementById("bottom").value = "";
+    document.getElementById("result").innerText = "";
+}
+function updateDate() {
+    let now = new Date();
+
+    let day = now.getDate();
+    let month = now.getMonth() + 1;
+    let year = now.getFullYear() + 543; // แปลงเป็น พ.ศ.
+
+    let text = "🔄 อัปเดตล่าสุด: " + day + "/" + month + "/" + year;
+
+    document.getElementById("updateText").innerText = text;
+}
+
+// เรียกใช้งาน
+updateDate();
+</script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIza...",
+  authDomain: "bac-project-72435.firebaseapp.com",
+  projectId: "bac-project-72435",
+  storageBucket: "bac-project-72435.firebasestorage.app",
+  messagingSenderId: "1072993348749",
+  appId: "1:1072993348749:web:8b994641c641acbed506c4"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// 🔥 device
+let deviceId = localStorage.getItem("deviceId");
+if (!deviceId) {
+  deviceId = Math.random().toString(36).substring(2);
+  localStorage.setItem("deviceId", deviceId);
+}
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  } else {
+
+    document.getElementById("userEmail").innerText = user.email;
+
+    const ref = doc(db, "Usere", user.email);
+    const snap = await getDoc(ref);
+
+    if (!snap.exists()) {
+      alert("ไม่มีสิทธิ์ใช้งาน");
+      signOut(auth);
+      window.location.href = "login.html";
+      return;
+    }
+
+    let data = snap.data();
+
+    if (!data.device || data.device === "") {
+      await updateDoc(ref, { device: deviceId });
+    } else if (data.device !== deviceId) {
+      alert("บัญชีนี้ถูกใช้งานในเครื่องอื่น");
+      signOut(auth);
+      window.location.href = "login.html";
+    }
+  }
+});
+
+// logout
+window.logout = function(){
+  signOut(auth).then(() => {
+    window.location.href = "login.html";
+  });
+}
+</script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD7lLhImsbyK4U3AYShpVlY7kSd6bUVJlQ",
+  authDomain: "bac-project-72435.firebaseapp.com",
+  projectId: "bac-project-72435",
+  storageBucket: "bac-project-72435.firebasestorage.app",
+  messagingSenderId: "1072993348749",
+  appId: "1:1072993348749:web:8b994641c641acbed506c4"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// 🔐 เช็ค login
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  }
+});
+
+// logout
+window.logout = function(){
+  signOut(auth).then(() => {
+    window.location.href = "login.html";
+  });
+}
+</script>
+</body>
+</html>
