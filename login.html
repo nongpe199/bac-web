@@ -173,6 +173,8 @@ window.login = function(){
 
   signInWithEmailAndPassword(auth, email, password)
     .then(() => {
+const deviceId = "mydevice123";
+localStorage.setItem("deviceId", deviceId);
     window.location.href = "menu.html";
 })
     .catch((error) => {
