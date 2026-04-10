@@ -490,22 +490,7 @@ onAuthStateChanged(auth, async (user) => {
     const ref = doc(db, "Usere", user.email);
     const snap = await getDoc(ref);
 
-    if (!snap.exists()) {
-      alert("ไม่มีสิทธิ์ใช้งาน");
-      signOut(auth);
-      window.location.href = "login.html";
-      return;
-    }
-
-    let data = snap.data();
-
-    if (!data.device || data.device === "") {
-      await updateDoc(ref, { device: deviceId });
-    } else if (data.device !== deviceId) {
-      alert("บัญชีนี้ถูกใช้งานในเครื่องอื่น");
-      signOut(auth);
-      window.location.href = "login.html";
-    }
+ 
   }
 });
 
