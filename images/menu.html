@@ -215,6 +215,11 @@ body {
 </div>
 
 <script>
+const user = localStorage.getItem("user");
+
+if (!user) {
+  window.location.href = "login.html";
+}
 function goLottery(){
     window.location.href = "yeekee.html";
 }
@@ -238,74 +243,10 @@ function updateDate() {
 updateDate();
 </script>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyD7lLhImsbyK4U3AYShpVlY7kSd6bUVJlQ",
-  authDomain: "bac-project-72435.firebaseapp.com",
-  projectId: "bac-project-72435",
-  storageBucket: "bac-project-72435.firebasestorage.app",
-  messagingSenderId: "1072993348749",
-  appId: "1:1072993348749:web:8b994641c641acbed506c4",
-  measurementId: "G-QN2EYEKJCW"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-// 🔥 สร้าง device id
-let deviceId = localStorage.getItem("deviceId");
-
-if (!deviceId) {
-  deviceId = Math.random().toString(36).substring(2);
-  localStorage.setItem("deviceId", deviceId);
-}
-
-// 🔐 check login + กันแชร์
-onAuthStateChanged(auth, async (user) => {
-  if (user === null) {
-  return; // 🔥 รอ ไม่ต้องเด้ง
-}
-
-if (!user) {
+<script>
+function logout(){
+  localStorage.removeItem("user");
   window.location.href = "login.html";
-} else {
-  document.getElementById("userEmail").innerText = user.email;
-
- const ref = doc(db, "Usere", user.email);
-const snap = await getDoc(ref);  // 🔥 เพิ่มบรรทัดนี้
-
-if (!snap.exists()) {
-      alert("ไม่มีสิทธิ์ใช้งาน");
-      signOut(auth);
-      window.location.href = "login.html";
-      return;
-    }
-
-    let data = snap.data();
-
-    // 🔥 ยังไม่มีเครื่อง → บันทึก
-    if (!data.device || data.device === "") {
-      await updateDoc(ref, { device: deviceId });
-    } 
-    // 🔥 เครื่องไม่ตรง → เตะออก
-    else if (data.device !== deviceId) {
-      alert("บัญชีนี้ถูกใช้งานในเครื่องอื่น");
-      signOut(auth);
-      window.location.href = "login.html";
-    }
-  }
-});
-
-// 🔥 logout
-window.logout = function(){
-  signOut(auth).then(() => {
-    window.location.href = "login.html";
-  });
 }
 </script>
 </body>

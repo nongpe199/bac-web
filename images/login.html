@@ -172,10 +172,13 @@ window.login = function(){
   let password = document.getElementById("pass").value;
 
   signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
-const deviceId = "mydevice123";
-localStorage.setItem("deviceId", deviceId);
-    window.location.href = "menu.html";
+   .then(() => {
+  const deviceId = "mydevice123";
+  localStorage.setItem("deviceId", deviceId);
+
+  localStorage.setItem("user", email); // 🔥 ใส่ตรงนี้
+
+  window.location.href = "menu.html";
 })
     .catch((error) => {
     document.getElementById("error").innerText = error.message;
@@ -194,7 +197,7 @@ localStorage.setItem("deviceId", deviceId);
 <div class="container">
 
     <div class="logo">
-        <img src="black.png">
+        <img src="images/black.png">
     </div>
 
     <div class="login-box">
